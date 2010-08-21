@@ -109,8 +109,9 @@ module.exports = {
                 assert.notEqual(a.id, b.id, 'record ids match');
                 Movie.keys(function(err, keys){
                     assert.isUndefined(err);
-                    assert.equal('Movie:' + a.id, keys[0].toString());
-                    assert.equal('Movie:' + b.id, keys[1].toString());
+                    keys = keys.map(function(key){ return key.toString(); });
+                    assert.ok(~keys.indexOf('Movie:' + a.id));
+                    assert.ok(~keys.indexOf('Movie:' + b.id));
                     done();
                 });
             });
