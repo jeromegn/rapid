@@ -50,7 +50,12 @@ module.exports = {
         
         movie.save(function(err){
             ok(err);
-            movie.save(ok);
+            movie.save(function(err){
+                ok(err);
+                movie.title = 'Batman Begins';
+                assert.equal(true, movie.stale);
+                assert.equal(false, movie.new);
+            });
         });
     }
 };
