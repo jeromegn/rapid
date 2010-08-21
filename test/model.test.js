@@ -7,7 +7,7 @@ var rapid = require('rapid'),
     Model = rapid.Model;
 
 var Movie = rapid.createModel('Movie', {
-    title: { type: 'String' },
+    title: { type: 'String', required: true },
     desc:  { type: 'String' },
     sales: { type: 'Number' }
 });
@@ -39,7 +39,7 @@ module.exports = {
         assert.equal('just some lame movie', movie.desc);
     },
     
-    'test Model#save()': function(assert, done){
+    'test Model#save() valid': function(assert, done){
         var movie = new Movie({ 
             title: 'Nightmare Before Xmas',
             desc: 'some description',
@@ -64,6 +64,17 @@ module.exports = {
                 assert.equal(false, movie.new);
                 done();
             });
+        });
+    },
+    
+    'test Model#save() invalid': function(assert, done){
+        var movie = new Movie;
+        movie.save(function(err){
+            assert.equal('Movie "title" is required.', err.message);
+            assert.equal(movie, err.record);
+            assert.equal(err, movie.error);
+            assert.equal(movie.properties.get('title'), err.property);
+            done();
         });
     },
     
