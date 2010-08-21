@@ -79,5 +79,9 @@ module.exports = {
                 assert.strictEqual(100, movie.sales);
             });
         });
+    },
+    
+    after: function(){
+        rapid.client.close();
     }
 };
