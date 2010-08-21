@@ -46,16 +46,16 @@ module.exports = {
         assert.equal(true, movie.new);
         assert.equal(true, movie.stale);
 
-        function ok(err){
+        movie.save(function(err){
             assert.isUndefined(err);
             assert.equal(false, movie.new);
             assert.equal(false, movie.stale);
-        }
 
-        movie.save(function(err){
-            ok(err);
             movie.save(function(err){
-                ok(err);
+                assert.isUndefined(err);
+                assert.equal(false, movie.new);
+                assert.equal(false, movie.stale);
+
                 movie.title = 'Batman Begins';
                 assert.equal(true, movie.stale);
                 assert.equal(false, movie.new);
@@ -64,14 +64,14 @@ module.exports = {
     },
     
     'test Model.get()': function(assert){
-        // var movie = new Movie({ title: 'Batman' });
-        // movie.save(function(err){
-        //     ok(err);
-        //     Movie.get(movie.id, function(err, movie){
-        //         console.dir(movie)
-        //         assert.equal(false, movie.stale);
-        //         assert.equal(true, movie.stale);
-        //     });
-        // });
+        var movie = new Movie({ title: 'Batman' });
+        movie.save(function(err){
+            assert.isUndefined(err);
+            Movie.get(movie.id, function(err, movie){
+                console.dir(movie)
+                assert.equal(false, movie.new, 'new after fetch');
+                assert.equal(false, movie.stale, 'stale after fetch');
+            });
+        });
     }
 };
