@@ -39,7 +39,7 @@ module.exports = {
         assert.equal('just some lame movie', movie.desc);
     },
     
-    'test Model#save()': function(assert){
+    'test Model#save()': function(assert, done){
         var movie = new Movie({ 
             title: 'Nightmare Before Xmas',
             desc: 'some description',
@@ -62,11 +62,12 @@ module.exports = {
                 movie.title = 'Batman Begins';
                 assert.equal(true, movie.stale);
                 assert.equal(false, movie.new);
+                done();
             });
         });
     },
     
-    'test Model.get()': function(assert){
+    'test Model.get()': function(assert, done){
         var movie = new Movie({ title: 'Foo', desc: 'some foo bar', sales: 100 });
         movie.save(function(err){
             assert.isUndefined(err);
@@ -76,8 +77,44 @@ module.exports = {
                 assert.equal('Foo', movie.title);
                 assert.equal('some foo bar', movie.desc);
                 assert.strictEqual(100, movie.sales);
+                done();
             });
         });
+    },
+    
+    'test Model.count()': function(assert, done){
+        var a = new Movie({ title: 'Foo' });
+        var b = new Movie({ title: 'Bar' });
+        a.save(function(err){
+            assert.isUndefined(err);
+            b.save(function(err){
+                assert.isUndefined(err);
+                assert.notEqual(a.id, b.id, 'record ids match');
+                Movie.count(function(err, n){
+                    assert.isUndefined(err);
+                    assert.strictEqual(n, 2);
+                    done();
+                });
+            });
+        });
+    },
+    
+    'test Model.keys()': function(assert, done){
+        var a = new Movie({ title: 'Foo' });
+        var b = new Movie({ title: 'Bar' });
+        a.save(function(err){
+            assert.isUndefined(err);
+            b.save(function(err){
+                assert.isUndefined(err);
+                assert.notEqual(a.id, b.id, 'record ids match');
+                Movie.keys(function(err, keys){
+                    assert.isUndefined(err);
+                    assert.equal('Movie:' + a.id, keys[0].toString());
+                    assert.equal('Movie:' + b.id, keys[1].toString());
+                    done();
+                });
+            });
+        }); 
     },
     
     after: function(){
