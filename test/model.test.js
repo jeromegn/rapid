@@ -19,9 +19,8 @@ module.exports = {
 
     'test .createModel()': function(assert){
         assert.ok(new Movie instanceof Model, 'Movie does not inherit from Model');
-        assert.equal('String', Movie.properties.title.type);
-        assert.equal('String', Movie.properties.desc.type);
-        assert.equal('Number', Movie.properties.sales.type);
+        assert.equal('String', Movie.properties.get('title').type);
+        assert.equal('Number', Movie.properties.get('sales').type);
     },
     
     'test Model() with invalid property': function(assert){
