@@ -70,7 +70,7 @@ module.exports = {
     'test Model#save() invalid': function(assert, done){
         var movie = new Movie;
         movie.save(function(err){
-            assert.equal('Movie "title" is required.', err.message);
+            assert.equal('Movie "title" is required', err.message);
             assert.equal(movie, err.record);
             assert.equal(err, movie.error);
             assert.equal(movie.properties.get('title'), err.property);
