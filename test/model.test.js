@@ -9,7 +9,7 @@ var rapid = require('rapid'),
 var Movie = rapid.createModel('Movie', {
     title: { type: 'String' },
     desc:  { type: 'String' },
-    views: { type: 'Number' }
+    sales: { type: 'Number' }
 });
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
         assert.ok(new Movie instanceof Model, 'Movie does not inherit from Model');
         assert.equal('String', Movie.properties.title.type);
         assert.equal('String', Movie.properties.desc.type);
-        assert.equal('Number', Movie.properties.views.type);
+        assert.equal('Number', Movie.properties.sales.type);
     },
     
     'test Model() with invalid property': function(assert){
@@ -34,5 +34,23 @@ module.exports = {
         var movie = new Movie({ title: 'Batman', desc: 'just some lame movie' });
         assert.equal('Batman', movie.title);
         assert.equal('just some lame movie', movie.desc);
+    },
+    
+    'test Model#save()': function(assert){
+        var movie = new Movie({ title: 'Batman', desc: 'some description', sales: 10 });
+        
+        assert.equal(true, movie.new);
+        assert.equal(true, movie.stale);
+        
+        function ok(err){
+            assert.isUndefined(err);
+            assert.equal(false, movie.new);
+            assert.equal(false, movie.stale);
+        }
+        
+        movie.save(function(err){
+            ok(err);
+            movie.save(ok);
+        });
     }
 };
