@@ -20,13 +20,19 @@ module.exports = {
         assert.equal('Number', Movie.properties.views.type);
     },
     
-    'test Model()': function(assert){
+    'test Model() with invalid property': function(assert){
         var err;
         try {
             new Movie({ name: 'batman' });
         } catch (e) {
             err = e;
         }
-        assert.equal(err.message, 'Movie has no property "name".');
+        assert.equal('Movie has no property "name".', err.message);
+    },
+    
+    'test Model() when valid': function(assert){
+        var movie = new Movie({ title: 'Batman', desc: 'just some lame movie' });
+        assert.equal('Batman', movie.title);
+        assert.equal('just some lame movie', movie.desc);
     }
 };
