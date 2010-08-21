@@ -68,14 +68,16 @@ module.exports = {
     },
     
     'test Model.get()': function(assert){
-        // var movie = new Movie({ title: 'Batman' });
-        // movie.save(function(err){
-        //     assert.isUndefined(err);
-        //     Movie.get(movie.id, function(err, movie){
-        //         console.dir(movie)
-        //         assert.equal(false, movie.new, 'new after fetch');
-        //         assert.equal(false, movie.stale, 'stale after fetch');
-        //     });
-        // });
+        var movie = new Movie({ title: 'Foo', desc: 'some foo bar', sales: 100 });
+        movie.save(function(err){
+            assert.isUndefined(err);
+            Movie.get(movie.id, function(err, movie){
+                assert.equal(false, movie.new, 'new after fetch');
+                assert.equal(false, movie.stale, 'stale after fetch');
+                assert.equal('Foo', movie.title);
+                assert.equal('some foo bar', movie.desc);
+                assert.strictEqual(100, movie.sales);
+            });
+        });
     }
 };
