@@ -42,16 +42,16 @@ module.exports = {
     
     'test Model#save()': function(assert){
         var movie = new Movie({ title: 'Batman', desc: 'some description', sales: 10 });
-        
+
         assert.equal(true, movie.new);
         assert.equal(true, movie.stale);
-        
+
         function ok(err){
             assert.isUndefined(err);
             assert.equal(false, movie.new);
             assert.equal(false, movie.stale);
         }
-        
+
         movie.save(function(err){
             ok(err);
             movie.save(function(err){
@@ -61,5 +61,17 @@ module.exports = {
                 assert.equal(false, movie.new);
             });
         });
+    },
+    
+    'test Model.get()': function(assert){
+        // var movie = new Movie({ title: 'Batman' });
+        // movie.save(function(err){
+        //     ok(err);
+        //     Movie.get(movie.id, function(err, movie){
+        //         console.dir(movie)
+        //         assert.equal(false, movie.stale);
+        //         assert.equal(true, movie.stale);
+        //     });
+        // });
     }
 };
