@@ -30,7 +30,7 @@ module.exports = {
         test('required', 
             new User, 
             'name', 
-            'User "name" is required', 
+            'User name is required', 
             'tyler', 
             done);
     },
@@ -39,7 +39,7 @@ module.exports = {
         test('min', 
             new User({ name: 'tyler', age: 0 }),
             'age',
-            'User "age" of 0 is below the minimum of 1',
+            'User age 0 is below the minimum of 1',
             23,
             done);
     }
