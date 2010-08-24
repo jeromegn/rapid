@@ -8,7 +8,7 @@ var rapid = require('rapid'),
     validation = rapid.validations;
 
 var User = rapid.createModel('User', {
-    name: { type: 'String', required: true },
+    name: { type: 'String', required: true, min: 3, max: 32 },
     age: { type: 'Number', min: 1, max: 120 }
 });
 
@@ -42,6 +42,13 @@ module.exports = {
             'User age 0 is below the minimum of 1',
             23,
             done);
+        
+        test('min',
+            new User({ name: 'tj' }),
+            'name',
+            "User name 'tj' is below the minimum length of 3",
+            'tyler',
+            done);
     },
     
     'test max': function(assert, done){
@@ -50,6 +57,14 @@ module.exports = {
             'age',
             'User age 250 is above the maximum of 120',
             30,
+            done);
+
+        var largeName = Array(20).join('fail');
+        test('max', 
+            new User({ name: largeName }),
+            'name',
+            'User name \'' + largeName + '\' is above the maximum length of 32',
+            'something smaller',
             done);
     }
 };
