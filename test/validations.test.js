@@ -42,5 +42,14 @@ module.exports = {
             'User age 0 is below the minimum of 1',
             23,
             done);
+    },
+    
+    'test max': function(assert, done){
+        test('max', 
+            new User({ name: 'tyler', age: 250 }),
+            'age',
+            'User age 250 is above the maximum of 120',
+            30,
+            done);
     }
 };
