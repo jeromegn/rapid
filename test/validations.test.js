@@ -4,6 +4,7 @@
  */
 
 var rapid = require('rapid'),
+    assert = require('assert'),
     validation = rapid.validations;
 
 var User = rapid.createModel('User', {
@@ -11,30 +12,35 @@ var User = rapid.createModel('User', {
     age: { type: 'Number', min: 1, max: 120 }
 });
 
+function test(validationName, record, prop, errMsg, okVal, fn) {
+    var user = new User,
+        prop = user.properties.get(prop);
+    validation[validationName](record, prop, function(err){
+        assert.equal(errMsg, err.message);
+        record[prop.name] = okVal;
+        validation[validationName](record, prop, function(err){
+            assert.isUndefined(err);
+            fn();
+        });
+    });
+}
+
 module.exports = {
     'test required': function(assert, done){
-        var user = new User,
-            prop = user.properties.get('name');
-        validation.required(user, prop, function(err){
-            assert.equal('User "name" is required', err.message);
-            user.name = 'tj';
-            validation.required(user, prop, function(err){
-                assert.isUndefined(err);
-                done();
-            });
-        });
+        test('required', 
+            new User, 
+            'name', 
+            'User "name" is required', 
+            'tyler', 
+            done);
     },
     
     'test min': function(assert, done){
-        var user = new User({ name: 'tj', age: 0 }),
-            prop = user.properties.get('age');
-        validation.min(user, prop, function(err){
-            assert.equal('User "age" of 0 is below the minimum of 1', err.message);
-            user.age = 23;
-            validation.min(user, prop, function(err){
-                assert.isUndefined(err);
-                done();
-            });
-        });
+        test('min', 
+            new User({ name: 'tyler', age: 0 }),
+            'age',
+            'User "age" of 0 is below the minimum of 1',
+            23,
+            done);
     }
 };
