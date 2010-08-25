@@ -8,7 +8,7 @@ var rapid = require('rapid'),
     validation = rapid.validations;
 
 var User = rapid.createModel('User', {
-    name: { type: 'String', required: true, min: 3, max: 32 },
+    name: { type: 'String', required: true, min: 3, max: 32, format: /^[\w ]+$/ },
     age: { type: 'Number', min: 1, max: 120 }
 });
 
@@ -65,6 +65,32 @@ module.exports = {
             'name',
             'User name \'' + largeName + '\' is above the maximum length of 32',
             'something smaller',
+            done);
+    },
+    
+    'test max': function(assert, done){
+        test('max', 
+            new User({ name: 'tyler', age: 250 }),
+            'age',
+            'User age 250 is above the maximum of 120',
+            30,
+            done);
+
+        var largeName = Array(20).join('fail');
+        test('max', 
+            new User({ name: largeName }),
+            'name',
+            'User name \'' + largeName + '\' is above the maximum length of 32',
+            'something smaller',
+            done);
+    },
+    
+    'test format': function(assert, done){
+        test('format', 
+            new User({ name: 'tyler%4' }),
+            'name',
+            'User name format is invalid',
+            'tyler',
             done);
     }
 };
