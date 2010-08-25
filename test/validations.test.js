@@ -10,7 +10,8 @@ var rapid = require('rapid'),
 var User = rapid.createModel('User', {
     name: { type: 'String', required: true, min: 3, max: 32, format: /^[\w ]+$/ },
     age: { type: 'Number', min: 1, max: 120 },
-    postalCode: { type: 'String', format: 'postal-code' }
+    postalCode: { type: 'String', format: 'postal-code' },
+    email: { type: 'String', format: 'email' }
 });
 
 function test(validationName, record, prop, errMsg, okVal, fn) {
@@ -94,5 +95,13 @@ module.exports = {
             'User postalCode format is invalid',
             'V9B 1t7');
         assert.equal('v9b1t7', user.postalCode);
+    },
+    
+    'test "email" format': function(assert){
+        test('format',
+            new User({ name: 'tyler', email: 'test' }),
+            'email',
+            'User email format is invalid',
+            'tj@vision-media.ca');
     }
 };
