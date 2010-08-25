@@ -87,5 +87,12 @@ module.exports = {
             'postalCode',
             'User postalCode format is invalid',
             'V9B1T7');
+        var user = new User({ name: 'tyler', postalCode: 'asdf' });
+        test('format', 
+            user,
+            'postalCode',
+            'User postalCode format is invalid',
+            'V9B 1t7');
+        assert.equal('v9b1t7', user.postalCode);
     }
 };
