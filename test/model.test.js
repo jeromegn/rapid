@@ -7,9 +7,9 @@ var rapid = require('rapid'),
     Model = rapid.Model;
 
 var Movie = rapid.createModel('Movie', {
-    title: { type: 'String', required: true },
-    desc:  { type: 'String' },
-    sales: { type: 'Number' }
+    title: { type: 'string', required: true },
+    desc:  { type: 'string' },
+    sales: { type: 'number' }
 });
 
 module.exports = {
@@ -19,8 +19,8 @@ module.exports = {
 
     'test .createModel()': function(assert){
         assert.ok(new Movie instanceof Model, 'Movie does not inherit from Model');
-        assert.equal('String', Movie.properties.get('title').type);
-        assert.equal('Number', Movie.properties.get('sales').type);
+        assert.equal('string', Movie.properties.get('title').type);
+        assert.equal('number', Movie.properties.get('sales').type);
     },
     
     'test Model() with invalid property': function(assert){

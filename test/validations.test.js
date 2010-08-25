@@ -8,10 +8,10 @@ var rapid = require('rapid'),
     validation = rapid.validations;
 
 var User = rapid.createModel('User', {
-    name: { type: 'String', required: true, min: 3, max: 32, format: /^[\w ]+$/ },
-    age: { type: 'Number', min: 1, max: 120 },
-    postalCode: { type: 'String', format: 'postal-code' },
-    email: { type: 'String', format: 'email' }
+    name: { type: 'string', required: true, min: 3, max: 32, format: /^[\w ]+$/ },
+    age: { type: 'number', min: 1, max: 120 },
+    postalCode: { type: 'string', format: 'postal-code' },
+    email: { type: 'string', format: 'email' }
 });
 
 function test(validationName, record, prop, errMsg, okVal, fn) {
