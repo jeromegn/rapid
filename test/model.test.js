@@ -9,7 +9,7 @@ var rapid = require('rapid'),
 var Movie = rapid.createModel('Movie', {
     title: { type: 'string', required: true },
     desc:  { type: 'string' },
-    sales: { type: 'number' }
+    sales: { type: 'number', default: 0 }
 });
 
 module.exports = {
@@ -127,6 +127,15 @@ module.exports = {
                 });
             });
         }); 
+    },
+    
+    'test defaults': function(assert, done){
+        var a = new Movie({ title: 'something' });
+        a.save(function(err){
+            assert.isUndefined(err);
+            assert.equal(0, a.sales);
+            done();
+        });
     },
     
     after: function(){
