@@ -26,5 +26,16 @@ module.exports = {
         assert.equal(date.toString(), types.date.load(timestamp));
         assert.throws(function(){ types.date.load('fail'); });
         assert.throws(function(){ types.date.load('123123123123123123123'); });
+    },
+    
+    'test "json"': function(assert){
+        assert.equal('{"foo":"bar"}', types.json.dump({ foo: 'bar' }));
+        assert.equal('123', types.json.dump(123));
+        assert.equal('"test"', types.json.dump("test"));
+        assert.equal('""', types.json.dump(""));
+        
+        assert.eql({ foo: 'bar' }, types.json.load('{"foo":"bar"}'));
+        assert.strictEqual(123, types.json.load('123'));
+        assert.equal('test', types.json.load('"test"'));
     }
 };
