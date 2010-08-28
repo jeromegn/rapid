@@ -22,7 +22,9 @@ module.exports = {
         assert.throws(function(){ types.date.save('fail'); });
         assert.throws(function(){ types.date.save(123123); });
         assert.throws(function(){ types.date.save(); });
-        
+
         assert.equal(date.toString(), types.date.load(timestamp));
+        assert.throws(function(){ types.date.load('fail'); });
+        assert.throws(function(){ types.date.load('123123123123123123123'); });
     }
 };
