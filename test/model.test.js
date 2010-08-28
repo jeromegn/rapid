@@ -131,8 +131,8 @@ module.exports = {
                 Movie.keys(function(err, keys){
                     assert.isUndefined(err);
                     keys = keys.map(function(key){ return key.toString(); });
-                    assert.ok(~keys.indexOf('Movie:' + a.id));
-                    assert.ok(~keys.indexOf('Movie:' + b.id));
+                    assert.includes(keys, 'Movie:' + a.id);
+                    assert.includes(keys, 'Movie:' + b.id);
                     done();
                 });
             });
