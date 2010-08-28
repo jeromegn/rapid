@@ -9,7 +9,7 @@ var rapid = require('rapid'),
 module.exports = {
     'test "id"': function(assert){
         var id = 'tttttttttttttttttttttttttttttttt';
-        assert.equal(new Buffer(id), types.id.dump(id));
+        assert.eql(new Buffer(id), types.id.dump(id));
         assert.throws(function(){ types.id.dump('test'); });
         assert.throws(function(){ types.id.dump(123); });
     },
