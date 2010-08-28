@@ -37,5 +37,18 @@ module.exports = {
         assert.eql({ foo: 'bar' }, types.json.load('{"foo":"bar"}'));
         assert.strictEqual(123, types.json.load('123'));
         assert.equal('test', types.json.load('"test"'));
+    },
+    
+    'test "number"': function(assert){
+        assert.equal('123', types.number.dump(123));
+        assert.equal('123', types.number.dump('123'));
+        assert.equal('15.99', types.number.dump(15.99));
+        assert.equal('15.99', types.number.dump('15.99'));
+        assert.throws(function(){ types.number.dump('fail'); });
+        
+        assert.strictEqual(123, types.number.load(new Buffer('123')));
+        assert.strictEqual(123, types.number.load('123'));
+        assert.strictEqual(15.99, types.number.load('15.99'));
+        assert.throws(function(){ types.number.load('fail'); });
     }
 };
