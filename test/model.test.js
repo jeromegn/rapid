@@ -6,7 +6,7 @@
 var rapid = require('rapid'),
     Model = rapid.Model;
 
-var Movie = rapid.createModel('Movie', {
+var Movie = rapid.model('Movie', {
     title: { type: 'string', required: true },
     desc:  { type: 'string' },
     sales: { type: 'number', default: 0 },

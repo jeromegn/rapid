@@ -5,7 +5,7 @@
 
 var rapid = require('../index');
 
-var User = rapid.createModel('User', {
+var User = rapid.model('User', {
     first  : { type: 'string', required: true },
     last   : { type: 'string', required: true },
     email  : { type: 'string', format: 'email' },

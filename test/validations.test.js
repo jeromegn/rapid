@@ -7,7 +7,7 @@ var rapid = require('rapid'),
     assert = require('assert'),
     validation = rapid.validations;
 
-var User = rapid.createModel('User', {
+var User = rapid.model('User', {
     name: { type: 'string', required: true, min: 3, max: 32, format: /^[\w ]+$/ },
     age: { type: 'number', min: 1, max: 120 },
     postalCode: { type: 'string', format: 'postal-code' },
