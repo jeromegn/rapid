@@ -22,6 +22,7 @@ module.exports = {
     },
 
     'test .model()': function(assert){
+        console.log(Movie.graphLabel());
         assert.equal(Movie, rapid.model('Movie'));
         assert.ok(new Movie instanceof Model, 'Movie does not inherit from Model');
         assert.equal('string', Movie.properties.get('title').type);
