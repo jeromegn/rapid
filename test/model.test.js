@@ -111,6 +111,18 @@ module.exports = {
         });
     },
     
+    'test Model#update()': function(assert, done){
+        var movie = new Movie({ title: 'foo' });
+        movie.update({ desc: 'bar', sales: 10 }, function(err){
+            assert.ok(!err);
+            Movie.get(movie.id, function(err, movie){
+                assert.equal('bar', movie.desc);
+                assert.equal(10, movie.sales);
+                done();
+            });
+        });
+    },
+    
     'test Model.get()': function(assert, done){
         var fakeImage = new Buffer('im an image');
 
