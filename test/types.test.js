@@ -58,6 +58,7 @@ module.exports = {
     },
     
     'test "boolean"': function(assert){
+        assert.equal(types.bool, types.boolean);
         assert.eql(new Buffer('1'), types.boolean.dump(true));
         assert.eql(new Buffer('0'), types.boolean.dump(false));
         assert.eql(new Buffer('1'), types.boolean.dump(2));
