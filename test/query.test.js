@@ -4,12 +4,12 @@
  */
 
 var rapid = require('rapid'),
-    Collection = rapid.Collection;
+    Query = rapid.Query;
 
 rapid.pending = rapid.pending || 0;
 ++rapid.pending;
 
-var User = rapid.model('User', {
+var User = rapid.model('User2', {
     name:  { type: 'string', required: true },
     email: { type: 'string', format: 'email' }
 });
@@ -20,16 +20,11 @@ module.exports = {
     },
     
     'test inheritance': function(assert){
-        assert.ok(new Collection instanceof Array);
-    },
-    
-    'test constructor with Array': function(assert){
-        var users = new Collection([new User, new User]);
-        assert.length(users, 2);
+        assert.ok(new Query instanceof Array);
     },
 
-    'test Collection#save() valid': function(assert, done){
-        var tj, simon, tobi, users = new Collection;
+    'test Query#save() valid': function(assert, done){
+        var tj, simon, tobi, users = new Query;
         users.push(tj = new User({ name: 'tj' }));
         users.push(simon = new User({ name: 'simon' }));
         users.push(tobi = new User({ name: 'tobi' }));
@@ -42,8 +37,8 @@ module.exports = {
         });
     },
     
-    'test Collection#save() invalid': function(assert, done){
-        var tj, simon, tobi, users = new Collection;
+    'test Query#save() invalid': function(assert, done){
+        var tj, simon, tobi, users = new Query;
         users.push(tj = new User({ name: 'tj' }));
         users.push(simon = new User);
         users.push(tobi = new User({ name: 'tobi' }));
@@ -57,8 +52,8 @@ module.exports = {
         });
     },
     
-    'test Collection#destroy() valid': function(assert, done){
-        var tj, simon, tobi, users = new Collection;
+    'test Query#destroy() valid': function(assert, done){
+        var tj, simon, tobi, users = new Query;
         users.push(tj = new User({ name: 'tj' }));
         users.push(simon = new User({ name: 'simon' }));
         users.push(tobi = new User({ name: 'tobi' }));
