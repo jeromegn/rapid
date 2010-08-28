@@ -1,0 +1,21 @@
+--- 
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: "'type' could be a valiation"
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: abstract validation as a plugin
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: default support
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: save states
