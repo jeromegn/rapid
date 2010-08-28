@@ -29,6 +29,8 @@ tj.save(function(err){
     // Fix and re-save
     tj.email = 'tj@vision-media.ca';
     tj.save(function(err){
-        console.log('test');
+        User.get(tj.id, function(err, user){
+            console.dir(user)
+        });
     });
 });

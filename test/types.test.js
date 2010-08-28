@@ -12,6 +12,8 @@ module.exports = {
         assert.eql(id, types.id.coerce(id));
         assert.throws(function(){ types.id.coerce('test'); });
         assert.throws(function(){ types.id.coerce(123); });
+        
+        assert.equal(id, types.id.load(new Buffer(id)));
     },
 
     'test "string"': function(assert){
