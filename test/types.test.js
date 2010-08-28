@@ -50,5 +50,10 @@ module.exports = {
         assert.strictEqual(123, types.number.load('123'));
         assert.strictEqual(15.99, types.number.load('15.99'));
         assert.throws(function(){ types.number.load('fail'); });
+    },
+    
+    'test "binary"': function(assert){
+        assert.eql(new Buffer('test'), types.binary.dump(new Buffer('test')));
+        assert.eql(new Buffer('test'), types.binary.load(new Buffer('test')));
     }
 };
