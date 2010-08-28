@@ -42,9 +42,5 @@ module.exports = {
             simon.name = 'simon';
             done();
         });
-    },
-    
-    after: function(){
-        rapid.client.close();
     }
 };

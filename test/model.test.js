@@ -80,6 +80,34 @@ module.exports = {
         });
     },
     
+    'test Model#destroy() unsaved': function(assert, done){
+        var movie = new Movie;
+        movie.destroy(function(err){
+            assert.isUndefined(err);
+            done();
+        });
+    },
+    
+    'test Model#destroy() saved': function(assert, done){
+        var movie = new Movie({ title: 'foobar' });
+        movie.save(function(err){
+            assert.isUndefined(err);
+            Movie.get(movie.id, function(err, movie){
+                assert.ok(movie);
+                assert.ok(!movie.destroyed, 'record is initialized as destroyed');
+                movie.destroy(function(err){
+                    assert.isUndefined(err);
+                    assert.equal(true, movie.destroyed, 'record not flagged as destroyed');
+                    Movie.get(movie.id, function(err, movie){
+                        assert.isUndefined(err);
+                        assert.ok(!movie, 'failed to destroy record');
+                        done();
+                    });
+                });
+            });
+        });
+    },
+    
     'test Model.get()': function(assert, done){
         var fakeImage = new Buffer('im an image');
 
@@ -146,9 +174,5 @@ module.exports = {
             assert.equal(0, a.sales);
             done();
         });
-    },
-    
-    after: function(){
-        rapid.client.close();
     }
 };
