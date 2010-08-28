@@ -18,6 +18,11 @@ module.exports = {
     setup: function(fn){
         User.clear(fn);
     },
+    
+    'test constructor with Array': function(assert){
+        var users = new Collection([new User, new User]);
+        assert.length(users, 2);
+    },
 
     'test Collection#save() valid': function(assert, done){
         var tj, simon, tobi, users = new Collection;
