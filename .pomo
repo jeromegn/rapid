@@ -44,3 +44,8 @@
   description: 
   length: 25
   name: entity relationship diagrams
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: buffer min/max validation support
