@@ -55,5 +55,18 @@ module.exports = {
     'test "binary"': function(assert){
         assert.eql(new Buffer('test'), types.binary.dump(new Buffer('test')));
         assert.eql(new Buffer('test'), types.binary.load(new Buffer('test')));
+    },
+    
+    'test "boolean"': function(assert){
+        assert.eql(new Buffer('1'), types.boolean.dump(true));
+        assert.eql(new Buffer('0'), types.boolean.dump(false));
+        assert.eql(new Buffer('1'), types.boolean.dump(2));
+        assert.eql(new Buffer('1'), types.boolean.dump(1));
+        assert.eql(new Buffer('0'), types.boolean.dump(0));
+        assert.eql(new Buffer('1'), types.boolean.dump(-1));
+        assert.eql(new Buffer('1'), types.boolean.dump(-2));
+        
+        assert.strictEqual(true, types.boolean.load(new Buffer('1')));
+        assert.strictEqual(false, types.boolean.load(new Buffer('0')));
     }
 };
