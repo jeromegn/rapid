@@ -54,3 +54,8 @@
   description: 
   length: 25
   name: update to save new props
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: Object.keys() overkill throughout
