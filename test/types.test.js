@@ -7,6 +7,13 @@ var rapid = require('rapid'),
     types = rapid.types;
 
 module.exports = {
+    'test "id"': function(assert){
+        var id = 'tttttttttttttttttttttttttttttttt';
+        assert.equal(new Buffer(id), types.id.dump(id));
+        assert.throws(function(){ types.id.dump('test'); });
+        assert.throws(function(){ types.id.dump(123); });
+    },
+
     'test "string"': function(assert){
         assert.eql(new Buffer('test'), types.string.dump('test'), 'test "string" string support');
         assert.eql(new Buffer('test'), types.string.dump(new Buffer('test')), 'test "string" Buffer support');
