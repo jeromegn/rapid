@@ -6,11 +6,11 @@
 var rapid = require('../index');
 
 var User = rapid.model('User', {
-    first  : { type: 'string', required: true },
-    last   : { type: 'string', required: true },
-    email  : { type: 'string', format: 'email' },
-    age    : { type: 'number', min: 1, max: 120 },
-    image  : { type: 'binary' } 
+    first : { type: 'string', required: true },
+    last  : { type: 'string', required: true },
+    email : { type: 'string', format: 'email' },
+    age   : { type: 'number', min: 1, max: 120 },
+    image : { type: 'binary' } 
 });
 
 var tj = new User({
