@@ -8,9 +8,9 @@ var rapid = require('rapid'),
 
 module.exports = {
     'test "string"': function(assert){
-        assert.equal('test', types.string.dump('test'), 'test "string" string support');
-        assert.equal('test', types.string.dump(new Buffer('test')), 'test "string" Buffer support');
-        assert.equal('15', types.string.dump(15), 'test "string" Number support');
+        assert.eql(new Buffer('test'), types.string.dump('test'), 'test "string" string support');
+        assert.eql(new Buffer('test'), types.string.dump(new Buffer('test')), 'test "string" Buffer support');
+        assert.eql(new Buffer('15'), types.string.dump(15), 'test "string" Number support');
         assert.throws(function(){ types.string.dump(new Date); });
         assert.throws(function(){ types.string.dump(); });
     },
@@ -18,7 +18,7 @@ module.exports = {
     'test "date"': function(assert){
         var date = new Date('may 25 1987'),
             timestamp = Number(date).toString();
-        assert.equal(timestamp, types.date.dump(date), 'test "date" Date support');
+        assert.eql(new Buffer(timestamp), types.date.dump(date), 'test "date" Date support');
         assert.throws(function(){ types.date.dump('fail'); });
         assert.throws(function(){ types.date.dump(123123); });
         assert.throws(function(){ types.date.dump(); });
@@ -29,10 +29,10 @@ module.exports = {
     },
     
     'test "json"': function(assert){
-        assert.equal('{"foo":"bar"}', types.json.dump({ foo: 'bar' }));
-        assert.equal('123', types.json.dump(123));
-        assert.equal('"test"', types.json.dump("test"));
-        assert.equal('""', types.json.dump(""));
+        assert.eql(new Buffer('{"foo":"bar"}'), types.json.dump({ foo: 'bar' }));
+        assert.eql(new Buffer('123'), types.json.dump(123));
+        assert.eql(new Buffer('"test"'), types.json.dump("test"));
+        assert.eql(new Buffer('""'), types.json.dump(""));
         
         assert.eql({ foo: 'bar' }, types.json.load('{"foo":"bar"}'));
         assert.strictEqual(123, types.json.load('123'));
@@ -40,10 +40,10 @@ module.exports = {
     },
     
     'test "number"': function(assert){
-        assert.equal('123', types.number.dump(123));
-        assert.equal('123', types.number.dump('123'));
-        assert.equal('15.99', types.number.dump(15.99));
-        assert.equal('15.99', types.number.dump('15.99'));
+        assert.eql(new Buffer('123'), types.number.dump(123));
+        assert.eql(new Buffer('123'), types.number.dump('123'));
+        assert.eql(new Buffer('15.99'), types.number.dump(15.99));
+        assert.eql(new Buffer('15.99'), types.number.dump('15.99'));
         assert.throws(function(){ types.number.dump('fail'); });
         
         assert.strictEqual(123, types.number.load(new Buffer('123')));
