@@ -83,7 +83,7 @@ module.exports = {
     'test Model#destroy() unsaved': function(assert, done){
         var movie = new Movie;
         movie.destroy(function(err){
-            assert.isUndefined(err);
+            assert.ok(!err);
             done();
         });
     },
@@ -91,15 +91,15 @@ module.exports = {
     'test Model#destroy() saved': function(assert, done){
         var movie = new Movie({ title: 'foobar' });
         movie.save(function(err){
-            assert.isUndefined(err);
+            assert.ok(!err);
             Movie.get(movie.id, function(err, movie){
                 assert.ok(movie);
                 assert.ok(!movie.destroyed, 'record is initialized as destroyed');
                 movie.destroy(function(err){
-                    assert.isUndefined(err);
+                    assert.ok(!err);
                     assert.equal(true, movie.destroyed, 'record not flagged as destroyed');
                     Movie.get(movie.id, function(err, movie){
-                        assert.isUndefined(err);
+                        assert.ok(!err);
                         assert.ok(!movie, 'failed to destroy record');
                         done();
                     });
@@ -168,10 +168,10 @@ module.exports = {
     },
     
     'test defaults': function(assert, done){
-        var a = new Movie({ title: 'something' });
-        a.save(function(err){
+        var movie = new Movie({ title: 'something' });
+        movie.save(function(err){
             assert.isUndefined(err);
-            assert.equal(0, a.sales);
+            assert.equal(0, movie.sales);
             done();
         });
     }
