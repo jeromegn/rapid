@@ -19,6 +19,10 @@ module.exports = {
         User.clear(fn);
     },
     
+    'test inheritance': function(assert){
+        assert.ok(new Collection instanceof Array);
+    },
+    
     'test constructor with Array': function(assert){
         var users = new Collection([new User, new User]);
         assert.length(users, 2);
