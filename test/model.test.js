@@ -6,6 +6,9 @@
 var rapid = require('rapid'),
     Model = rapid.Model;
 
+rapid.pending = rapid.pending || 0;
+++rapid.pending;
+
 var Movie = rapid.model('Movie', {
     title: { type: 'string', required: true },
     desc:  { type: 'string' },
@@ -80,6 +83,34 @@ module.exports = {
         });
     },
     
+    'test Model#destroy() unsaved': function(assert, done){
+        var movie = new Movie;
+        movie.destroy(function(err){
+            assert.ok(!err);
+            done();
+        });
+    },
+    
+    'test Model#destroy() saved': function(assert, done){
+        var movie = new Movie({ title: 'foobar' });
+        movie.save(function(err){
+            assert.ok(!err);
+            Movie.get(movie.id, function(err, movie){
+                assert.ok(movie);
+                assert.ok(!movie.destroyed, 'record is initialized as destroyed');
+                movie.destroy(function(err){
+                    assert.ok(!err);
+                    assert.equal(true, movie.destroyed, 'record not flagged as destroyed');
+                    Movie.get(movie.id, function(err, movie){
+                        assert.ok(!err);
+                        assert.ok(!movie, 'failed to destroy record');
+                        done();
+                    });
+                });
+            });
+        });
+    },
+    
     'test Model.get()': function(assert, done){
         var fakeImage = new Buffer('im an image');
 
@@ -140,15 +171,15 @@ module.exports = {
     },
     
     'test defaults': function(assert, done){
-        var a = new Movie({ title: 'something' });
-        a.save(function(err){
+        var movie = new Movie({ title: 'something' });
+        movie.save(function(err){
             assert.isUndefined(err);
-            assert.equal(0, a.sales);
+            assert.equal(0, movie.sales);
             done();
         });
     },
     
     after: function(){
-        rapid.client.close();
+        --rapid.pending || rapid.client.close();
     }
 };
