@@ -34,3 +34,13 @@
   description: 
   length: 25
   name: lists
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: doc generation
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: entity relationship diagrams
