@@ -6,6 +6,9 @@
 var rapid = require('rapid'),
     Collection = rapid.Collection;
 
+rapid.pending = rapid.pending || 0;
+++rapid.pending;
+
 var User = rapid.model('User', {
     name:  { type: 'string', required: true },
     email: { type: 'string', format: 'email' }
@@ -42,5 +45,9 @@ module.exports = {
             simon.name = 'simon';
             done();
         });
+    },
+    
+    after: function(){
+        --rapid.pending || rapid.client.close();
     }
 };

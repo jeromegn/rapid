@@ -6,6 +6,9 @@
 var rapid = require('rapid'),
     Model = rapid.Model;
 
+rapid.pending = rapid.pending || 0;
+++rapid.pending;
+
 var Movie = rapid.model('Movie', {
     title: { type: 'string', required: true },
     desc:  { type: 'string' },
@@ -174,5 +177,9 @@ module.exports = {
             assert.equal(0, movie.sales);
             done();
         });
+    },
+    
+    after: function(){
+        --rapid.pending || rapid.client.close();
     }
 };
