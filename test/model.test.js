@@ -18,7 +18,8 @@ module.exports = {
         Movie.clear(fn);
     },
 
-    'test .createModel()': function(assert){
+    'test .model()': function(assert){
+        assert.equal(Movie, rapid.model('Movie'));
         assert.ok(new Movie instanceof Model, 'Movie does not inherit from Model');
         assert.equal('string', Movie.properties.get('title').type);
         assert.equal('number', Movie.properties.get('sales').type);
