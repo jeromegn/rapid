@@ -134,6 +134,7 @@ module.exports = {
         a.save(function(err){
             assert.isUndefined(err);
             assert.equal(0, a.sales);
+            done();
         });
     },
     

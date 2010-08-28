@@ -13,9 +13,4 @@
   complete: false
   description: 
   length: 25
-  name: default support
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: save states
