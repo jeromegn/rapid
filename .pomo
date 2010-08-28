@@ -14,3 +14,23 @@
   description: 
   length: 25
   name: save states
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: indexing
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: associations
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: sets
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: lists

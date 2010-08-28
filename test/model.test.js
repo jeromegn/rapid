@@ -9,7 +9,8 @@ var rapid = require('rapid'),
 var Movie = rapid.createModel('Movie', {
     title: { type: 'string', required: true },
     desc:  { type: 'string' },
-    sales: { type: 'number', default: 0 }
+    sales: { type: 'number', default: 0 },
+    image: { type: 'binary' }
 });
 
 module.exports = {
@@ -79,7 +80,15 @@ module.exports = {
     },
     
     'test Model.get()': function(assert, done){
-        var movie = new Movie({ title: 'Foo', desc: 'some foo bar', sales: 100 });
+        var fakeImage = new Buffer('im an image');
+
+        var movie = new Movie({
+            title: 'Foo',
+            desc: 'some foo bar',
+            sales: 100,
+            image: fakeImage
+        });
+
         movie.save(function(err){
             assert.isUndefined(err);
             Movie.get(movie.id, function(err, movie){
