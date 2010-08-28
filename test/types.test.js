@@ -30,6 +30,8 @@ module.exports = {
         assert.throws(function(){ types.date.coerce(123123); });
         assert.throws(function(){ types.date.coerce(); });
 
+        assert.equal(timestamp, types.date.dump(date));
+
         assert.equal(date.toString(), types.date.load(timestamp));
         assert.throws(function(){ types.date.load('fail'); });
         assert.throws(function(){ types.date.load('123123123123123123123'); });
@@ -37,6 +39,7 @@ module.exports = {
     
     'test "json"': function(assert){
         assert.eql({ foo: 'bar' }, types.json.coerce({ foo: 'bar' }));
+        
         assert.eql('{"foo":"bar"}', types.json.dump({ foo: 'bar' }));
         assert.eql('123', types.json.dump(123));
         assert.eql('"test"', types.json.dump("test"));
@@ -54,6 +57,8 @@ module.exports = {
         assert.eql(15.99, types.number.coerce('15.99'));
         assert.throws(function(){ types.number.coerce('fail'); });
         
+        assert.equal('123', types.number.dump(123));
+        
         assert.strictEqual(123, types.number.load(new Buffer('123')));
         assert.strictEqual(123, types.number.load('123'));
         assert.strictEqual(15.99, types.number.load('15.99'));
@@ -67,6 +72,7 @@ module.exports = {
     
     'test "boolean"': function(assert){
         assert.equal(types.bool, types.boolean);
+        assert.eql(true, types.boolean.coerce(new Date));
         assert.eql(true, types.boolean.coerce('1'));
         assert.eql(true, types.boolean.coerce('t'));
         assert.eql(true, types.boolean.coerce('true'));
@@ -80,6 +86,9 @@ module.exports = {
         assert.eql(false, types.boolean.coerce(0));
         assert.eql(true, types.boolean.coerce(-1));
         assert.eql(true, types.boolean.coerce(-2));
+        
+        assert.equal('1', types.boolean.dump(true));
+        assert.equal('0', types.boolean.dump(false));
         
         assert.strictEqual(true, types.boolean.load(new Buffer('1')));
         assert.strictEqual(false, types.boolean.load(new Buffer('0')));
