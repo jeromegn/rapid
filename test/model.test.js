@@ -13,7 +13,15 @@ var Movie = rapid.model('Movie', {
     title: { type: 'string', required: true },
     desc:  { type: 'string' },
     sales: { type: 'number', default: 0 },
-    image: { type: 'binary' }
+    image: { type: 'binary' },
+    get summary(){
+        return this.title + ' ' + this.desc;
+    },
+    set summary(str){
+        var parts = str.split(' ');
+        this.title = parts.shift();
+        this.desc = parts.join(' ');
+    }
 });
 
 module.exports = {
@@ -36,6 +44,21 @@ module.exports = {
             err = e;
         }
         assert.equal('Movie has no property "name".', err.message);
+    },
+    
+    'test getters': function(assert){
+        var movie = new Movie({
+            title: 'Batman',
+            desc: 'is cool'
+        });
+        assert.equal('Batman is cool', movie.summary);
+    },
+    
+    'test setters': function(assert){
+        var movie = new Movie;
+        movie.summary = 'Batman is cool';
+        assert.equal('Batman', movie.title);
+        assert.equal('is cool', movie.desc);
     },
     
     'test Model() when valid': function(assert){

@@ -64,3 +64,10 @@
   description: 
   length: 25
   name: transaction/rollback?
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: |
+    fix date
+
