@@ -20,8 +20,6 @@ var tj = new User({
     email: 'invalid'
 });
 
-// TODO: fix callback which is called twice...
-
 tj.save(function(err){
     // access err.record and err.property
     console.log('error: %s', err.message);
@@ -31,6 +29,7 @@ tj.save(function(err){
     tj.save(function(err){
         User.get(tj.id, function(err, user){
             console.dir(user)
+            process.exit(0);
         });
     });
 });
