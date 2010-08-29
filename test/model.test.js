@@ -21,6 +21,9 @@ var Movie = rapid.model('Movie', {
         var parts = str.split(' ');
         this.title = parts.shift();
         this.desc = parts.join(' ');
+    },
+    setTitle: function(val){
+        return this.title = val;
     }
 });
 
@@ -59,6 +62,12 @@ module.exports = {
         movie.summary = 'Batman is cool';
         assert.equal('Batman', movie.title);
         assert.equal('is cool', movie.desc);
+    },
+    
+    'test methods': function(assert){
+        var movie = new Movie;
+        movie.setTitle('foo');
+        assert.equal('foo', movie.title);
     },
     
     'test Model() when valid': function(assert){
