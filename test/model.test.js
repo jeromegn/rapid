@@ -64,10 +64,16 @@ module.exports = {
         assert.equal('is cool', movie.desc);
     },
     
-    'test methods': function(assert){
+    'test methods': function(assert, done){
         var movie = new Movie;
         movie.setTitle('foo');
         assert.equal('foo', movie.title);
+        movie.setTitle(new Buffer('test'));
+        movie.save(function(err){
+            assert.ok(!err);
+            assert.equal('test', movie.title);
+            done();
+        });
     },
     
     'test Model() when valid': function(assert){
