@@ -14,13 +14,13 @@ var Movie = rapid.model('Movie', {
     desc:  { type: 'string' },
     sales: { type: 'number', default: 0 },
     image: { type: 'binary' },
-    date:  { type: 'date' },
-    get datedTitle(){
-        console.log('test')
-        var date = this.date
-            ? this.date.getFullYear()
-            : 'n/a';
-        return date + ' ' + this.title;
+    get summary(){
+        return this.title + ' ' + this.desc;
+    },
+    set summary(str){
+        var parts = str.split(' ');
+        this.title = parts.shift();
+        this.desc = parts.join(' ');
     }
 });
 
@@ -49,9 +49,16 @@ module.exports = {
     'test getters': function(assert){
         var movie = new Movie({
             title: 'Batman',
-            date: new Date('may 25 2009')
+            desc: 'is cool'
         });
-        console.dir(movie.datedTitle)
+        assert.equal('Batman is cool', movie.summary);
+    },
+    
+    'test setters': function(assert){
+        var movie = new Movie;
+        movie.summary = 'Batman is cool';
+        assert.equal('Batman', movie.title);
+        assert.equal('is cool', movie.desc);
     },
     
     'test Model() when valid': function(assert){
