@@ -14,14 +14,20 @@ var Movie = rapid.model('Movie', {
     desc:  { type: 'string' },
     sales: { type: 'number', default: 0 },
     image: { type: 'binary' },
+
+    // Example getter
     get summary(){
         return this.title + ' ' + this.desc;
     },
+
+    // Example setter
     set summary(str){
         var parts = str.split(' ');
         this.title = parts.shift();
         this.desc = parts.join(' ');
     },
+
+    // Example method
     setTitle: function(val){
         return this.title = val;
     }
