@@ -22,7 +22,7 @@ var tj = new User({
 
 tj.save(function(err){
     // access err.record and err.property
-    console.log('error: %s', err.message);
+    console.error('error: %s', err.message);
 
     // Fix and re-save
     tj.email = 'tj@vision-media.ca';

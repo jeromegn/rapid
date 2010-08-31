@@ -1,13 +1,67 @@
 
 # Rapid
 
- Rapid is an ORM-ish api for [redis](http://code.google.com/p/redis/).
+ Rapid is an ORM-ish api for [redis](http://code.google.com/p/redis/), currently backed by Fictorial's awesome [redis-client](http://github.com/fictorial/redis-node-client). Rapid is very much a work-in-progress, feel free to contribute.
 
-## Features
+## Examples
 
- - validations
- - type coercion
- - query api
+Source:
+
+    var rapid = require('rapid');
+
+    var User = rapid.model('User', {
+        first : { type: 'string', required: true },
+        last  : { type: 'string', required: true },
+        email : { type: 'string', format: 'email' },
+        age   : { type: 'number', min: 1, max: 120 },
+        image : { type: 'binary' } 
+    });
+
+    var tj = new User({
+        first: 'TJ',
+        last: 'Holowaychuk',
+        age: 23,
+        email: 'invalid'
+    });
+
+    tj.save(function(err){
+        // access err.record and err.property
+        console.error('error: %s', err.message);
+
+        // Fix and re-save
+        tj.email = 'tj@vision-media.ca';
+        tj.save(function(err){
+
+            // Grab user by id
+            User.get(tj.id, function(err, user){
+                console.dir(user)
+                process.exit(0);
+            });
+        });
+    });
+
+std{err,out}:
+
+    error: User email format is invalid
+
+    [User
+      id: '841c71863a7cfce63b5393b4f64b8814'
+      first: 'TJ'
+      last: 'Holowaychuk'
+      email: 'tj@vision-media.ca'
+      age: 23
+      image: undefined
+    ]
+
+## Testing
+
+Launch redis:
+
+    $ nohup redis-server &
+
+Run the tests:
+
+    $ make test
 
 ## License 
 
