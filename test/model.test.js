@@ -249,8 +249,9 @@ module.exports = {
             Movie.find({ title: /^foo|bar$/ }).all(function(err, movies){
                 assert.ok(!err);
                 assert.length(movies, 2);
-                assert.equal('foo', movies[0].title);
-                assert.equal('bar', movies[1].title);
+                var titles = movies.map(function(movie){ return movie.title; });
+                assert.includes(titles, 'foo');
+                assert.includes(titles, 'bar');
                 done();
             });
         });
