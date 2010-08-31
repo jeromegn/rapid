@@ -57,16 +57,25 @@ std{err,out}:
       image: undefined
     ]
 
+## Validations
+
+The following validations are currently supported:
+
+  - `require`: ensures that a property value has been assigned
+  - `min`: ensures numeric value or string length when assigned is >= min
+  - `max`: ensures numeric value or string length when assigned is <= max
+  - `format`: ensures string format via the given `RegExp` or canned format such as "email".
+
 ## Types
 
 Each rapid "type" is tasked with coercion, "loading" redis `Buffer` data into a native JavaScript equiv, as well as "dumping" JavaScript values to a `Buffer` object for storage within Redis. Current supported are the following types:
 
-  - binary
-  - string
-  - date
-  - json
-  - number
-  - boolean (aliased as bool)
+  - `binary`
+  - `string`
+  - `date`
+  - `json`
+  - `number`
+  - `boolean` (aliased as bool)
 
 ## Testing
 
