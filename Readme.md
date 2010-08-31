@@ -5,7 +5,7 @@
 
 ## Installation
 
-  $ npm install rapid
+    $ npm install rapid
 
 ## Examples
 
