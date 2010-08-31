@@ -227,16 +227,30 @@ module.exports = {
         }); 
     },
     
-    'test Model.find()': function(assert, done){
+    'test Model.find() string comparison': function(assert, done){
         var a = new Movie({ title: 'foo' }),
             b = new Movie({ title: 'bar' }),
             c = new Movie({ title: 'baz' });
         new Collection([a,b,c]).save(function(){
             Movie.find({ title: 'foo' }).all(function(err, movies){
                 assert.ok(!err);
-                assert.ok(movies instanceof Collection, 'Query#all() result is not a Collection');
                 assert.length(movies, 1);
                 assert.equal('foo', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() regexp support': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ title: /^foo|bar$/ }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 2);
+                assert.equal('foo', movies[0].title);
+                assert.equal('bar', movies[1].title);
                 done();
             });
         });
