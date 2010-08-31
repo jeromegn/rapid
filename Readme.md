@@ -57,6 +57,17 @@ std{err,out}:
       image: undefined
     ]
 
+## Types
+
+Each rapid "type" is tasked with coercion, "loading" redis `Buffer` data into a native JavaScript equiv, as well as "dumping" JavaScript values to a `Buffer` object for storage within Redis. Current supported are the following types:
+
+  - binary
+  - string
+  - date
+  - json
+  - number
+  - boolean (aliased as bool)
+
 ## Testing
 
 Launch redis:
