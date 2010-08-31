@@ -386,7 +386,7 @@ module.exports = {
             b = new Movie({ title: 'bar', sales: 4 }),
             c = new Movie({ title: 'baz', sales: 3 });
         new Collection([a,b,c]).save(function(){
-            Movie.find({ sales: { gt: 1 }}).find({ sales: { lte: 4 }, title: 'baz' }).all(function(err, movies){
+            Movie.find({ sales: { '>': 1 }}).find({ sales: { '<=': 4 }, title: 'baz' }).all(function(err, movies){
                 assert.ok(!err);
                 assert.length(movies, 1);
                 assert.equal('baz', movies[0].title);
