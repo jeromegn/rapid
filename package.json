@@ -1,0 +1,9 @@
+{
+  "name": "rapid",
+  "description": "Redis ORM-ish api",
+  "version": "0.0.1",
+  "author": "TJ Holowaychuk <tj@vision-media.ca>",
+  "keywords": ["redis", "orm", "ohm", "database", "db"],
+  "main": "./lib/rapid",
+  "engines": { "node": ">= 0.2.0" }
+}
