@@ -3,6 +3,10 @@
 
  Rapid is an ORM-ish api for [redis](http://code.google.com/p/redis/), currently backed by Fictorial's awesome [redis-client](http://github.com/fictorial/redis-node-client). Rapid is very much a work-in-progress, feel free to contribute.
 
+## Installation
+
+  $ npm install rapid
+
 ## Examples
 
 Source:
