@@ -4,7 +4,8 @@
  */
 
 var rapid = require('rapid'),
-    Model = rapid.Model;
+    Model = rapid.Model,
+    Collection = rapid.Collection;
 
 rapid.pending = rapid.pending || 0;
 ++rapid.pending;
@@ -224,6 +225,19 @@ module.exports = {
                 });
             });
         }); 
+    },
+    
+    'test Model.find()': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ title: 'foo' }).all(function(err, movies){
+                assert.ok(!err);
+                assert.ok(movies instanceof Collection, 'Query#all() result is not a Collection');
+                done();
+            });
+        });
     },
     
     'test defaults': function(assert, done){
