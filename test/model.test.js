@@ -353,6 +353,20 @@ module.exports = {
         });
     },
     
+    'test Model.find() op chaining': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { gt: 1, lt: 4 }}).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('baz', movies[0].title);
+                done();
+            });
+        });
+    },
+    
     'test defaults': function(assert, done){
         var movie = new Movie({ title: 'something' });
         movie.save(function(err){
