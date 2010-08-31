@@ -78,6 +78,18 @@ module.exports = {
         });
     },
     
+    'test race conditions': function(assert, done){
+        var tj, simon, tobi, users = new Collection, n = 0;
+        users.push(tj = new User);
+        users.push(simon = new User);
+        users.push(tobi = new User);
+        users.save(function(err){
+            ++n;
+            assert.equal(1, n);
+            done();
+        });
+    },
+    
     after: function(){
         --rapid.pending || rapid.client.close();
     }
