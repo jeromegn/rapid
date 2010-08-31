@@ -257,6 +257,19 @@ module.exports = {
         });
     },
     
+    'test Model.find() empty collection': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ title: /^fail$/ }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 0);
+                done();
+            });
+        });
+    },
+    
     'test defaults': function(assert, done){
         var movie = new Movie({ title: 'something' });
         movie.save(function(err){
