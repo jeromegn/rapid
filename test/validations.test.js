@@ -11,7 +11,8 @@ var User = rapid.model('User', {
     name: { type: 'string', required: true, min: 3, max: 32, format: /^[\w ]+$/ },
     age: { type: 'number', min: 1, max: 120 },
     postalCode: { type: 'string', format: 'postal-code' },
-    email: { type: 'string', format: 'email' }
+    email: { type: 'string', format: 'email' },
+    homepage: { type: 'string', format: 'url' }
 });
 
 function test(validationName, record, prop, errMsg, okVal, fn) {
@@ -103,5 +104,13 @@ module.exports = {
             'email',
             'User email format is invalid',
             'tj@vision-media.ca');
+    },
+    
+    'test "url" format': function(assert){
+        test('format',
+            new User({ name: 'tyler', homepage: 'foo' }),
+            'homepage',
+            'User homepage format is invalid',
+            'http://foo.com');
     }
 };
