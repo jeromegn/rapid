@@ -235,6 +235,8 @@ module.exports = {
             Movie.find({ title: 'foo' }).all(function(err, movies){
                 assert.ok(!err);
                 assert.ok(movies instanceof Collection, 'Query#all() result is not a Collection');
+                assert.length(movies, 1);
+                assert.equal('foo', movies[0].title);
                 done();
             });
         });
