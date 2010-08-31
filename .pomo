@@ -3,16 +3,6 @@
   complete: false
   description: 
   length: 25
-  name: "'type' could be a valiation"
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: abstract validation as a plugin
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
   name: save states
 - !ruby/object:Pomo::Task 
   complete: false
@@ -54,11 +44,6 @@
   description: 
   length: 25
   name: update to save new props
-- !ruby/object:Pomo::Task 
-  complete: false
-  description: 
-  length: 25
-  name: Object.keys() overkill throughout
 - !ruby/object:Pomo::Task 
   complete: false
   description: 
