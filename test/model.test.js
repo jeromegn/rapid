@@ -337,6 +337,22 @@ module.exports = {
         });
     },
     
+    'test Model.find() gte': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { gte: 3 }}).all(function(err, movies){
+                assert.ok(!err);
+                movies = movies.map(function(movie){ return movie.title; });
+                assert.length(movies, 2);
+                assert.includes(movies, 'baz');
+                assert.includes(movies, 'bar');
+                done();
+            });
+        });
+    },
+    
     'test defaults': function(assert, done){
         var movie = new Movie({ title: 'something' });
         movie.save(function(err){
