@@ -18,6 +18,10 @@ var Post = rapid.model('Post', {
     body: { type: 'string', min: 5, max: 1500 }
 });
 
+var Comment = rapid.model('Comment', {
+    body: { type: 'string', required: true, min: 5 }
+});
+
 console.log(rapid.graph());
 process.exit(0);
 
