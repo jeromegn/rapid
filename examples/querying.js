@@ -10,7 +10,10 @@ var User = rapid.model('User', {
     last  : { type: 'string', required: true },
     email : { type: 'string', format: 'email' },
     age   : { type: 'number', min: 1, max: 120 },
-    image : { type: 'binary' } 
+    image : { type: 'binary' },
+    get name(){
+        return this.first + ' ' + this.last;
+    }
 });
 
 // Generate 1000 records
@@ -52,10 +55,12 @@ while (n--) {
 console.log('... %d saving', users.length);
 users.save(function(err){
     console.log('... saved');
-    // Find all users with first name starting with "T",
-    // *@vision-media.ca email, and older than 20
+    // Find all users ending with "Holowaychuk",
+    // note that even our getter works fine, as well as
+    // an email matching *@vision-media.ca, and age
+    // greater than 20
     User
-        .find({ first: /^T/ })
+        .find({ name: /Holowaychuk$/ })
         .find({ email: /vision\-media\.ca$/ })
         .find({ age: { gt: 20 }})
         .all(function(err, users){
