@@ -481,7 +481,7 @@ module.exports = {
             Movie.directedBy(/^Tim/).all(function(err, movies){
                 assert.ok(!err);
                 assert.length(movies, 2);
-                Movie.timBurton.find({ sales:{ gt: 3 }}).all(function(err, movies){
+                Movie.find().directedBy('Tim Burton').all(function(err, movies){
                     assert.ok(!err);
                     assert.length(movies, 1);
                     assert.equal('2', movies[0].title);
