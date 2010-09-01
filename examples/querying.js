@@ -51,8 +51,14 @@ while (n--) {
 
 console.log('... saving %d records', users.length);
 users.save(function(err){
-    console.log('... saved');
-    User.find({ first: 'Tobi' }).all(function(err, users){
+    console.log('... records saved');
+    // Find all users with first name starting with "T",
+    // *@vision-media.ca email, and older than 20
+    User
+        .find({ first: /^T/ })
+        .find({ email: /vision\-media\.ca$/ })
+        .find({ age: { gt: 20 }})
+        .all(function(err, users){
         console.log('... fetched %d', users.length);
         // We now have 1/3 of the users,
         // we can delete them all below
