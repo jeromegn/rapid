@@ -473,25 +473,6 @@ module.exports = {
         });
     },
     
-    'test custom Query method': function(assert, done){
-        var a = new Movie({ title: 'foo', director: 'bar', sales: 1 }),
-            b = new Movie({ title: '1', director: 'Tim Someone', sales: 3 }),
-            c = new Movie({ title: '2', director: 'Tim Burton', sales: 4 });
-        new Collection([a,b,c]).save(function(){
-            Movie.directedBy(/^Tim/).all(function(err, movies){
-                assert.ok(!err);
-                assert.length(movies, 2);
-                // Movie.find().directedBy('Tim Burton').all(function(err, movies){
-                //     assert.ok(!err);
-                //     assert.length(movies, 1);
-                //     assert.equal('2', movies[0].title);
-                //     done();
-                // });
-                done();
-            });
-        });
-    },
-    
     'test defaults': function(assert, done){
         var movie = new Movie({ title: 'something' });
         movie.save(function(err){
