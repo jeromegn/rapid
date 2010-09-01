@@ -395,6 +395,22 @@ module.exports = {
         });
     },
     
+    'test Model.find() with getter filtering': function(assert, done){
+        var a = new Movie({ title: 'foo', desc: 'something' }),
+            b = new Movie({ title: 'bar', desc: 'something' }),
+            c = new Movie({ title: 'baz', desc: 'something' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ summary: /^(foo|bar) something$/ }).all(function(err, movies){
+                assert.ok(!err);
+                movies = movies.map(function(movie){ return movie.title; });
+                assert.length(movies, 2);
+                assert.includes(movies, 'foo');
+                assert.includes(movies, 'bar');
+                done();
+            });
+        });
+    },
+    
     'test Model.all()': function(assert, done){
         var a = new Movie({ title: 'foo', sales: 1 }),
             b = new Movie({ title: 'bar', sales: 4 }),
