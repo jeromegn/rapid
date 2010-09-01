@@ -39,6 +39,10 @@ Movie.__defineGetter__('timBurton', function(){
     return this.find({ director: 'Tim Burton' });
 });
 
+Movie.directedBy = function(name){
+    return this.find({ director: name });
+};
+
 module.exports = {
     setup: function(fn){
         Movie.clear(fn);
@@ -457,6 +461,24 @@ module.exports = {
             c = new Movie({ title: '2', director: 'Tim Burton', sales: 4 });
         new Collection([a,b,c]).save(function(){
             Movie.timBurton.all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 2);
+                Movie.timBurton.find({ sales:{ gt: 3 }}).all(function(err, movies){
+                    assert.ok(!err);
+                    assert.length(movies, 1);
+                    assert.equal('2', movies[0].title);
+                    done();
+                });
+            });
+        });
+    },
+    
+    'test custom Query method': function(assert, done){
+        var a = new Movie({ title: 'foo', director: 'bar', sales: 1 }),
+            b = new Movie({ title: '1', director: 'Tim Someone', sales: 3 }),
+            c = new Movie({ title: '2', director: 'Tim Burton', sales: 4 });
+        new Collection([a,b,c]).save(function(){
+            Movie.directedBy(/^Tim/).all(function(err, movies){
                 assert.ok(!err);
                 assert.length(movies, 2);
                 Movie.timBurton.find({ sales:{ gt: 3 }}).all(function(err, movies){
