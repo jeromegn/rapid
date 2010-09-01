@@ -49,9 +49,9 @@ while (n--) {
 
 // Save the entire collection
 
-console.log('... saving %d records', users.length);
+console.log('... %d saving', users.length);
 users.save(function(err){
-    console.log('... records saved');
+    console.log('... saved');
     // Find all users with first name starting with "T",
     // *@vision-media.ca email, and older than 20
     User
@@ -59,19 +59,19 @@ users.save(function(err){
         .find({ email: /vision\-media\.ca$/ })
         .find({ age: { gt: 20 }})
         .all(function(err, users){
-        console.log('... fetched %d', users.length);
+        console.log('... %d fetched', users.length);
         // We now have 1/3 of the users,
         // we can delete them all below
         users.destroy(function(err){
-            console.log('... destroyed %d', users.length);
+            console.log('... %d destroyed', users.length);
             // Figure out how many remain
             User.count(function(err, n){
                 console.log('... %d remain', n);
                 // Remove the rest
                 User.clear(function(err){
-                    console.log('... removed all users');
+                    console.log('... all destroyed');
                     User.count(function(err, n){
-                        console.log('... users remaining %d', n);
+                        console.log('... %d remain', n);
                         process.exit(0);
                     });
                 });
