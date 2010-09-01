@@ -70,7 +70,10 @@ users.save(function(err){
                 // Remove the rest
                 User.clear(function(err){
                     console.log('... removed all users');
-                    process.exit(0);
+                    User.count(function(err, n){
+                        console.log('... users remaining %d', n);
+                        process.exit(0);
+                    });
                 });
             });
         });
