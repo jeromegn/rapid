@@ -56,3 +56,8 @@
   name: |
     fix date
 
+- !ruby/object:Pomo::Task 
+  complete: false
+  description: 
+  length: 25
+  name: fix race condition w/ --pending, other libs too

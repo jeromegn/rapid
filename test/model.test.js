@@ -4,7 +4,8 @@
  */
 
 var rapid = require('rapid'),
-    Model = rapid.Model;
+    Model = rapid.Model,
+    Collection = rapid.Collection;
 
 rapid.pending = rapid.pending || 0;
 ++rapid.pending;
@@ -224,6 +225,209 @@ module.exports = {
                 });
             });
         }); 
+    },
+    
+    'test Model.find() string comparison': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ title: 'foo' }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('foo', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() regexp support': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ title: /^foo|bar$/ }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 2);
+                var titles = movies.map(function(movie){ return movie.title; });
+                assert.includes(titles, 'foo');
+                assert.includes(titles, 'bar');
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() empty collection': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ title: /^fail$/ }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 0);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() everything': function(assert, done){
+        var a = new Movie({ title: 'foo' }),
+            b = new Movie({ title: 'bar' }),
+            c = new Movie({ title: 'baz' });
+        new Collection([a,b,c]).save(function(){
+            Movie.find().all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 3);
+                done();
+            });
+        });
+    },
+
+    'test Model.find() by numeric value': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 1 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: 1 }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 2);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() gt': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 1 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { gt: 1 }}).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('baz', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() lt': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { lt: 3 }}).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('foo', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() lte': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { lte: 3 }}).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 2);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() gte': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { gte: 3 }}).all(function(err, movies){
+                assert.ok(!err);
+                movies = movies.map(function(movie){ return movie.title; });
+                assert.length(movies, 2);
+                assert.includes(movies, 'baz');
+                assert.includes(movies, 'bar');
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() op chaining': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { gt: 1, lt: 4 }}).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('baz', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() Query chaining': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { gt: 1 }}).find({ sales: { lt: 4 }}).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('baz', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.find() Query chaining further': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.find({ sales: { '>': 1 }}).find({ sales: { '<=': 4 }, title: 'baz' }).all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 1);
+                assert.equal('baz', movies[0].title);
+                done();
+            });
+        });
+    },
+    
+    'test Model.all()': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            Movie.all(function(err, movies){
+                assert.ok(!err);
+                movies = movies.map(function(movie){ return movie.title; });
+                assert.length(movies, 3);
+                assert.includes(movies, 'foo');
+                assert.includes(movies, 'bar');
+                assert.includes(movies, 'baz');
+                done();
+            });
+        });
+    },
+    
+    'test Model.each()': function(assert, done){
+        var a = new Movie({ title: 'foo', sales: 1 }),
+            b = new Movie({ title: 'bar', sales: 4 }),
+            c = new Movie({ title: 'baz', sales: 3 });
+        new Collection([a,b,c]).save(function(){
+            var movies = [];
+            Movie.each(function(movie){
+                movies.push(movie.title);
+            }, function(err){
+                assert.length(movies, 3);
+                assert.includes(movies, 'foo');
+                assert.includes(movies, 'bar');
+                assert.includes(movies, 'baz');
+                done();
+            });
+        });
     },
     
     'test defaults': function(assert, done){
