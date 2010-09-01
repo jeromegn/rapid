@@ -12,7 +12,8 @@ rapid.pending = rapid.pending || 0;
 
 var Movie = rapid.model('Movie', {
     title: { type: 'string', required: true },
-    desc:  { type: 'string' },
+    director: { type: 'string' },
+    desc: { type: 'string' },
     sales: { type: 'number', default: 0 },
     image: { type: 'binary' },
 
@@ -32,6 +33,10 @@ var Movie = rapid.model('Movie', {
     setTitle: function(val){
         return this.title = val;
     }
+});
+
+Movie.__defineGetter__('timBurton', function(){
+    return this.find({ director: 'Tim Burton' });
 });
 
 module.exports = {
@@ -442,6 +447,24 @@ module.exports = {
                 assert.includes(movies, 'bar');
                 assert.includes(movies, 'baz');
                 done();
+            });
+        });
+    },
+    
+    'test custom Query getters': function(assert, done){
+        var a = new Movie({ title: 'foo', director: 'bar', sales: 1 }),
+            b = new Movie({ title: '1', director: 'Tim Burton', sales: 3 }),
+            c = new Movie({ title: '2', director: 'Tim Burton', sales: 4 });
+        new Collection([a,b,c]).save(function(){
+            Movie.timBurton.all(function(err, movies){
+                assert.ok(!err);
+                assert.length(movies, 2);
+                Movie.timBurton.find({ sales:{ gt: 3 }}).all(function(err, movies){
+                    assert.ok(!err);
+                    assert.length(movies, 1);
+                    assert.equal('2', movies[0].title);
+                    done();
+                });
             });
         });
     },
