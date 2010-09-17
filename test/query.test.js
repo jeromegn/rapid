@@ -74,6 +74,6 @@ module.exports = {
     },
     
     after: function(){
-        --rapid.pending || rapid.client.close();
+        --rapid.pending || rapid.client.end();
     }
 };
