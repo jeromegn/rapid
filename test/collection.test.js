@@ -78,6 +78,23 @@ module.exports = {
         });
     },
     
+    'test Collection#find()': function(assert, done){
+        var tj = new User({ name: 'tj' }),
+            simon = new User({ name: 'simon' }),
+            tobi = new User({ name: 'tobi' });
+        new Collection([tj, simon, tobi]).save(function(err){
+            User.all(function(err, users){
+                assert.ok(!err);
+                users.find({ name: 'tj' }).all(function(err, users){
+                    assert.ok(!err);
+                    assert.length(users, 1);
+                    assert.equal('tj', users[0].name);
+                    done();
+                });
+            });
+        });
+    },
+    
     'test race conditions': function(assert, done){
         var tj, simon, tobi, users = new Collection, n = 0;
         users.push(tj = new User);
