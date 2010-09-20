@@ -95,6 +95,25 @@ module.exports = {
         });
     },
     
+    'test Collection#each()': function(assert, done){
+        var tj = new User({ name: 'tj' }),
+            simon = new User({ name: 'simon' }),
+            tobi = new User({ name: 'tobi' });
+        new Collection([tj, simon, tobi]).save(function(err){
+            User.all(function(err, users){
+                assert.ok(!err);
+                var records = [];
+                users.each(function(record){
+                    records.push(record);
+                }, function(err){
+                    assert.ok(!err);
+                    assert.length(records, 3);
+                    done();
+                });
+            });
+        });
+    },
+    
     'test race conditions': function(assert, done){
         var tj, simon, tobi, users = new Collection, n = 0;
         users.push(tj = new User);
