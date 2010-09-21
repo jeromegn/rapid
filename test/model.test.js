@@ -80,6 +80,12 @@ module.exports = {
         assert.equal('is cool', movie.desc);
     },
     
+    'test setters in constructors': function(assert){
+        var movie = new Movie({ summary: 'Batman is cool' });
+        assert.equal('Batman', movie.title);
+        assert.equal('is cool', movie.desc);
+    },
+    
     'test methods': function(assert, done){
         var movie = new Movie;
         movie.setTitle('foo');
